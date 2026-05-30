@@ -80,10 +80,12 @@ Done! The mod will automatically read the token from your clipboard and log you 
 
 - Minecraft 版本：**26.1.2**
 - 需要安装 **Fabric Loader 0.19.2** 或更高版本
+- 需要安装 **Fabric Language Kotlin 1.13.11** 或更高版本
 - 推荐搭配 **Fabric API** 使用
 
 - Minecraft Version: **26.1.2**
 - Requires **Fabric Loader 0.19.2** or higher
+- Requires **Fabric Language Kotlin 1.13.11** or higher
 - **Fabric API** is recommended
 
 ## 安装方法 | Installation
