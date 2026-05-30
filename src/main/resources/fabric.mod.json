@@ -1,0 +1,45 @@
+{
+	"schemaVersion": 1,
+	"id": "tokenlogin",
+	"version": "${version}",
+	"name": "TokenLogin",
+	"description": "login through minecraft token",
+	"authors": [
+		"KCl"
+	],
+	"contact": {
+		"homepage": "https://github.com/KClgame",
+		"sources": "https://github.com/KClgame"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/tokenlogin/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "com.kcl.tokenlogin.Tokenlogin",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "com.kcl.tokenlogin.client.TokenloginClient",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"tokenlogin.mixins.json",
+		{
+			"config": "tokenlogin.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.2",
+		"minecraft": "~26.1.2",
+		"java": ">=25",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "com.kcl.tokenlogin.client.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"MinecraftClientAccessor",
+		"MultiplayerScreenMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

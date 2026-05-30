@@ -1,0 +1,27 @@
+﻿# Gradle
+.gradle/
+build/
+run/
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Minecraft
+run/
+logs/
+crash-reports/
+options.txt
+servers.dat
+
+# Misc
+*.log
+*.tmp
+*.bak
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

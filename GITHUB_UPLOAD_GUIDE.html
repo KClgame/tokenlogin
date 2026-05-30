@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub 代码上传教学 - TokenLogin Mod</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --primary: #6366f1;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .step-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        .nav-active {
+            border-bottom: 3px solid #6366f1;
+            font-weight: 600;
+        }
+
+        .code-block {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        .minecraft-bg {
+            background: linear-gradient(135deg, #1e2937 0%, #0f172a 100%);
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e2937;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .warning-box {
+            background-color: #fefce8;
+            border-left: 4px solid #eab308;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <!-- 顶部导航 -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white">
+                    <i class="fa-brands fa-github text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight heading-font">GitHub 上传教学</h1>
+                    <p class="text-xs text-slate-500 -mt-1">TokenLogin Mod 专用版</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-x-2 text-sm">
+                <div class="px-3 py-1.5 bg-slate-100 rounded-full text-slate-600 text-xs font-medium flex items-center gap-x-1.5">
+                    <i class="fa-solid fa-cube"></i>
+                    <span>Fabric 1.21.11 → 26.1.2</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-6 py-8">
+        
+        <!-- 介绍 -->
+        <div class="mb-10">
+            <div class="inline-flex items-center gap-x-2 px-4 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium mb-4">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>新手友好 · 适合 Minecraft Mod 开发者</span>
+            </div>
+            
+            <h2 class="text-4xl font-bold heading-font tracking-tight text-slate-900 mb-3">
+                如何把你的 Mod 项目<br>上传到 GitHub
+            </h2>
+            <p class="text-lg text-slate-600 max-w-2xl">
+                本教程专为你的 <strong>TokenLogin</strong> 项目设计，包含 Fabric Mod 项目的特殊注意事项。
+            </p>
+        </div>
+
+        <!-- 两种方式选择 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <!-- 推荐方式 -->
+            <div onclick="document.getElementById('desktop-section').scrollIntoView({ behavior: 'smooth' })" 
+                 class="cursor-pointer bg-white border border-slate-200 rounded-2xl p-6 hover:border-indigo-300 transition-all step-card">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="w-11 h-11 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center">
+                        <i class="fa-solid fa-desktop text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-lg">推荐方式</div>
+                        <div class="text-emerald-600 text-sm font-medium">GitHub Desktop（最简单）</div>
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm">
+                    图形化界面操作，几乎不会出错，强烈建议新手使用。
+                </p>
+            </div>
+
+            <div onclick="document.getElementById('cli-section').scrollIntoView({ behavior: 'smooth' })" 
+                 class="cursor-pointer bg-white border border-slate-200 rounded-2xl p-6 hover:border-indigo-300 transition-all step-card">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="w-11 h-11 bg-slate-100 text-slate-600 rounded-2xl flex items-center justify-center">
+                        <i class="fa-solid fa-terminal text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-lg">进阶方式</div>
+                        <div class="text-slate-500 text-sm font-medium">命令行（Git Bash / PowerShell）</div>
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm">
+                    更灵活，适合有一定 Git 基础的用户。
+                </p>
+            </div>
+        </div>
+
+        <!-- 前置准备 -->
+        <div class="mb-12">
+            <h3 class="section-header">
+                <i class="fa-solid fa-check-double text-indigo-600"></i>
+                前置准备
+            </h3>
+            
+            <div class="bg-white border border-slate-200 rounded-2xl p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                        </div>
+                        <div>
+                            <div class="font-semibold mb-1">GitHub 账号</div>
+                            <div class="text-sm text-slate-600">注册并登录 <a href="https://github.com" target="_blank" class="text-indigo-600 hover:underline">github.com</a></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                        </div>
+                        <div>
+                            <div class="font-semibold mb-1">安装 Git</div>
+                            <div class="text-sm text-slate-600">
+                                下载地址：<a href="https://git-scm.com/download/win" target="_blank" class="text-indigo-600 hover:underline">git-scm.com</a><br>
+                                <span class="text-xs text-amber-600">（GitHub Desktop 会自动安装）</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                        </div>
+                        <div>
+                            <div class="font-semibold mb-1">准备好项目文件夹</div>
+                            <div class="text-sm text-slate-600">
+                                推荐使用：<br>
+                                <code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded">tokenlogin-template-26.1.2 (1)</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 方法一：GitHub Desktop -->
+        <div id="desktop-section" class="mb-16 scroll-mt-6">
+            <div class="flex items-center gap-x-3 mb-6">
+                <div class="px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-2xl text-sm font-semibold flex items-center gap-x-2">
+                    <i class="fa-solid fa-star"></i>
+                    <span>推荐新手</span>
+                </div>
+                <h3 class="section-header !mb-0">方法一：使用 GitHub Desktop</h3>
+            </div>
+
+            <div class="space-y-4">
+                <!-- 步骤1 -->
+                <div class="step-card bg-white border border-slate-200 rounded-2xl p-6">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                        <div class="flex-1">
+                            <div class="font-semibold mb-2">下载并安装 GitHub Desktop</div>
+                            <a href="https://desktop.github.com/" target="_blank" 
+                               class="inline-flex items-center gap-x-2 text-emerald-600 hover:text-emerald-700 font-medium">
+                                <span>前往官网下载</span>
+                                <i class="fa-solid fa-external-link-alt text-xs"></i>
+                            </a>
+                            <div class="text-sm text-slate-500 mt-1">安装后使用 GitHub 账号登录</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤2 -->
+                <div class="step-card bg-white border border-slate-200 rounded-2xl p-6">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                        <div class="flex-1">
+                            <div class="font-semibold mb-3">在 GitHub 创建新仓库</div>
+                            
+                            <ol class="list-decimal list-inside space-y-2 text-sm">
+                                <li>登录 GitHub 后点击右上角 <strong>+</strong> → <strong>New repository</strong></li>
+                                <li>Repository name 建议填写：<code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs">TokenLogin-26.1.2</code></li>
+                                <li>选择 <strong>Public</strong> 或 <strong>Private</strong></li>
+                                <li class="text-red-600 font-medium">重要：不要勾选 “Add a README file”</li>
+                                <li>点击 <strong>Create repository</strong></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤3 -->
+                <div class="step-card bg-white border border-slate-200 rounded-2xl p-6">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                        <div class="flex-1">
+                            <div class="font-semibold mb-2">克隆仓库到本地</div>
+                            <div class="text-sm text-slate-600 mb-3">
+                                在 GitHub Desktop 中点击 <strong>File → Clone repository</strong>，选择你刚创建的仓库，点击 Clone。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤4 -->
+                <div class="step-card bg-white border border-slate-200 rounded-2xl p-6">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
+                        <div class="flex-1">
+                            <div class="font-semibold mb-3">复制你的 Mod 文件（重要！）</div>
+                            
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-sm">
+                                <div class="font-medium text-yellow-800 mb-2">操作建议：</div>
+                                <ul class="list-disc list-inside text-yellow-700 space-y-1">
+                                    <li>把 <strong>tokenlogin-template-26.1.2 (1)</strong> 里面的所有内容复制到刚克隆的仓库文件夹中</li>
+                                    <li><strong>不要复制</strong> <code>build</code>、<code>.gradle</code>、<code>run</code> 这三个文件夹</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤5 -->
+                <div class="step-card bg-white border border-slate-200 rounded-2xl p-6">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-bold">5</div>
+                        <div class="flex-1">
+                            <div class="font-semibold mb-3">创建 .gitignore 文件</div>
+                            <p class="text-sm mb-3">在仓库根目录新建一个名为 <code>.gitignore</code> 的文件，内容如下：</p>
+                            
+                            <pre class="code-block bg-slate-900 text-slate-100 p-4 rounded-xl text-xs overflow-auto"><code># Gradle
+.gradle/
+build/
+run/
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Minecraft
+run/
+.gradle/
+build/</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card bg-white border border-slate-200 rounded-2xl p-6">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-bold">6</div>
+                        <div class="flex-1">
+                            <div class="font-semibold mb-2">提交并推送</div>
+                            <ol class="list-decimal list-inside text-sm space-y-1 text-slate-600">
+                                <li>在 GitHub Desktop 左侧看到所有改动</li>
+                                <li>下方填写提交信息，例如：<strong>Initial commit - TokenLogin 26.1.2</strong></li>
+                                <li>点击 <strong>Commit to main</strong></li>
+                                <li>再点击右上角的 <strong>Push origin</strong></li>
+                            </ol>
+                            <div class="mt-3 text-emerald-600 text-sm font-medium flex items-center gap-x-1.5">
+                                <i class="fa-solid fa-check-circle"></i>
+                                <span>完成！你的代码已经上传到 GitHub 了</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 方法二：命令行 -->
+        <div id="cli-section" class="mb-16 scroll-mt-6">
+            <h3 class="section-header">
+                <i class="fa-solid fa-terminal text-slate-500"></i>
+                方法二：使用命令行（Git）
+            </h3>
+            
+            <div class="bg-white border border-slate-200 rounded-2xl p-6">
+                <div class="space-y-6">
+                    <div>
+                        <div class="font-semibold mb-2">1. 进入项目目录并初始化</div>
+                        <pre class="code-block bg-slate-900 text-emerald-300 p-4 rounded-xl text-sm"><code>cd "C:\Users\Administrator\Desktop\homework\9\tokenlogin-template-26.1.2 (1)"
+git init</code></pre>
+                    </div>
+
+                    <div>
+                        <div class="font-semibold mb-2">2. 创建 .gitignore（同上）</div>
+                    </div>
+
+                    <div>
+                        <div class="font-semibold mb-2">3. 提交代码</div>
+                        <pre class="code-block bg-slate-900 text-emerald-300 p-4 rounded-xl text-sm"><code>git add .
+git commit -m "Initial commit - TokenLogin 26.1.2"</code></pre>
+                    </div>
+
+                    <div>
+                        <div class="font-semibold mb-2">4. 关联远程仓库并推送</div>
+                        <pre class="code-block bg-slate-900 text-emerald-300 p-4 rounded-xl text-sm"><code>git remote add origin https://github.com/KClgame/你的仓库名.git
+git branch -M main
+git push -u origin main</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mod 项目特别提醒 -->
+        <div class="mb-12">
+            <h3 class="section-header">
+                <i class="fa-solid fa-exclamation-triangle text-amber-500"></i>
+                Minecraft Mod 项目特别提醒
+            </h3>
+            
+            <div class="warning-box border rounded-2xl p-6">
+                <div class="font-semibold text-amber-800 mb-3">以下文件夹绝对不要上传到 GitHub：</div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                    <div class="bg-white px-3 py-2 rounded-lg border flex items-center gap-2">
+                        <i class="fa-solid fa-folder text-amber-500"></i> 
+                        <span><code>build/</code></span>
+                    </div>
+                    <div class="bg-white px-3 py-2 rounded-lg border flex items-center gap-2">
+                        <i class="fa-solid fa-folder text-amber-500"></i> 
+                        <span><code>.gradle/</code></span>
+                    </div>
+                    <div class="bg-white px-3 py-2 rounded-lg border flex items-center gap-2">
+                        <i class="fa-solid fa-folder text-amber-500"></i> 
+                        <span><code>run/</code></span>
+                    </div>
+                    <div class="bg-white px-3 py-2 rounded-lg border flex items-center gap-2">
+                        <i class="fa-solid fa-folder text-amber-500"></i> 
+                        <span><code>.idea/</code></span>
+                    </div>
+                </div>
+                <div class="text-xs text-amber-700 mt-4">
+                    这些文件夹体积巨大且包含大量临时文件，会让你的仓库变得非常臃肿。
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center text-slate-400 text-sm">
+            制作于 2026 · 专为 TokenLogin Mod 开发教学使用
+        </div>
+    </div>
+</body>
+</html>
