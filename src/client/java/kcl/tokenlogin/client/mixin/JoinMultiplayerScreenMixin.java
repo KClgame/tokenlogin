@@ -22,23 +22,22 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
 		int buttonWidth = 220;
 		int buttonHeight = 20;
 		int padding = 5;
-		int x = this.width - buttonWidth - padding;
-		this.addRenderableWidget(
-			Button.builder(Component.translatable("tokenlogin.button.login"), button -> {
-				if (this.minecraft != null) {
-					TokenLogin.INSTANCE.loginFromClipboard(this.minecraft);
-				}
-			})
-				.bounds(x, padding, buttonWidth, buttonHeight)
-				.build()
-		);
 		this.addRenderableWidget(
 			Button.builder(Component.translatable("tokenlogin.button.refresh"), button -> {
 				if (this.minecraft != null) {
 					TokenLogin.INSTANCE.refreshMainAccount(this.minecraft);
 				}
 			})
-				.bounds(x, padding + buttonHeight + padding, buttonWidth, buttonHeight)
+				.bounds(padding, padding, buttonWidth, buttonHeight)
+				.build()
+		);
+		this.addRenderableWidget(
+			Button.builder(Component.translatable("tokenlogin.button.login"), button -> {
+				if (this.minecraft != null) {
+					TokenLogin.INSTANCE.loginFromClipboard(this.minecraft);
+				}
+			})
+				.bounds(this.width - buttonWidth - padding, padding, buttonWidth, buttonHeight)
 				.build()
 		);
 	}

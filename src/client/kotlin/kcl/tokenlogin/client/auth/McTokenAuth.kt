@@ -33,15 +33,15 @@ object McTokenAuth {
 					if (!id.isNullOrBlank() && !name.isNullOrBlank()) {
 						AuthResult.Success(name, id)
 					} else {
-						AuthResult.Failure("返回格式无效")
+						AuthResult.Failure("Invalid response format")
 					}
 				}
-				401 -> AuthResult.Failure("Token 无效或已过期")
-				404 -> AuthResult.Failure("没有 Minecraft 档案")
-				else -> AuthResult.Failure("验证失败: ${response.statusCode()}")
+				401 -> AuthResult.Failure("Invalid or expired token")
+				404 -> AuthResult.Failure("No Minecraft profile found")
+				else -> AuthResult.Failure("Authentication failed: ${response.statusCode()}")
 			}
 		} catch (e: Exception) {
-			AuthResult.Failure("连接错误: ${e.message}")
+			AuthResult.Failure("Connection error: ${e.message}")
 		}
 	}
 

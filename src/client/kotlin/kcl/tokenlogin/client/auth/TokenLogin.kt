@@ -17,16 +17,16 @@ object TokenLogin {
 	fun loginFromClipboard(client: Minecraft) {
 		val raw = client.keyboardHandler.clipboard
 		if (raw.isNullOrBlank()) {
-			setStatus("剪贴板为空", 0xFFFF0000.toInt())
+			setStatus("Clipboard is empty", 0xFFFF0000.toInt())
 			return
 		}
 		val token = raw.trim()
-		setStatus("正在验证 Token...", 0xFFFFFFFF.toInt())
+		setStatus("Authenticating...", 0xFFFFFFFF.toInt())
 		runAuth(client, token) { success ->
 			if (UserManager.setUser(token, success.name, success.id)) {
-				setStatus("登录成功: ${success.name}", 0xFF00FF00.toInt())
+				setStatus("Login successful: ${success.name}", 0xFF00FF00.toInt())
 			} else {
-				setStatus("无法写入会话", 0xFFFF0000.toInt())
+				setStatus("Failed to set session", 0xFFFF0000.toInt())
 			}
 		}
 	}
@@ -34,13 +34,13 @@ object TokenLogin {
 	fun refreshMainAccount(client: Minecraft) {
 		MainAccount.capture(client)
 		if (MainAccount.token().isNullOrBlank()) {
-			setStatus("还没有记录主账号 Token", 0xFFFF0000.toInt())
+			setStatus("No main account token recorded", 0xFFFF0000.toInt())
 			return
 		}
 		if (MainAccount.restore()) {
-			setStatus("已写回主账号: ${MainAccount.name()}", 0xFF00FF00.toInt())
+			setStatus("Restored main account: ${MainAccount.name()}", 0xFF00FF00.toInt())
 		} else {
-			setStatus("无法写回主账号", 0xFFFF0000.toInt())
+			setStatus("Failed to restore main account", 0xFFFF0000.toInt())
 		}
 	}
 
@@ -64,13 +64,13 @@ object TokenLogin {
 					when (result) {
 						is McTokenAuth.AuthResult.Success -> onSuccess(result)
 						is McTokenAuth.AuthResult.Failure -> {
-							setStatus("失败: ${result.message}", 0xFFFF0000.toInt())
+							setStatus("Failed: ${result.message}", 0xFFFF0000.toInt())
 						}
 					}
 				}
 			}
 			.exceptionally { error ->
-				client.execute { setStatus("错误: ${error.message}", 0xFFFF0000.toInt()) }
+				client.execute { setStatus("Error: ${error.message}", 0xFFFF0000.toInt()) }
 				null
 			}
 	}
