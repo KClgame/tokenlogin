@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "tokenlogin",
+	"version": "${version}",
+	"name": "Tokenlogin",
+	"description": "Client-only clipboard token login and original-session refresh for Minecraft 26.2.",
+	"authors": [
+		"KCl"
+	],
+	"contact": {
+		"homepage": "https://github.com/KClgame/tokenlogin",
+		"sources": "https://github.com/KClgame/tokenlogin/tree/26.2"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/tokenlogin/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "kcl.tokenlogin.Tokenlogin",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "kcl.tokenlogin.client.TokenloginClient",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		{
+			"config": "tokenlogin.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	}
+}
