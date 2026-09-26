@@ -35,7 +35,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
 		this.addRenderableWidget(
 			Button.builder(Component.translatable("tokenlogin.button.refresh"), button -> {
 				if (this.minecraft != null) {
-					TokenLogin.INSTANCE.refreshOriginal(this.minecraft);
+					TokenLogin.INSTANCE.refreshMainAccount(this.minecraft);
 				}
 			})
 				.bounds(x, padding + buttonHeight + padding, buttonWidth, buttonHeight)

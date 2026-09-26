@@ -31,25 +31,16 @@ object TokenLogin {
 		}
 	}
 
-	fun refreshOriginal(client: Minecraft) {
-		val token = OriginalSession.originalToken()
-		if (token.isNullOrBlank()) {
-			setStatus("还没有记录初始 Token", 0xFFFF0000.toInt())
+	fun refreshMainAccount(client: Minecraft) {
+		MainAccount.capture(client)
+		if (MainAccount.token().isNullOrBlank()) {
+			setStatus("还没有记录主账号 Token", 0xFFFF0000.toInt())
 			return
 		}
-		val original = OriginalSession.originalName()
-		val current = client.user
-		if (current.name == original && current.accessToken == token) {
-			setStatus("当前已是初始账号: $original", 0xFF00FF00.toInt())
-			return
-		}
-		setStatus("正在恢复初始账号...", 0xFFFFFFFF.toInt())
-		runAuth(client, token) { success ->
-			if (OriginalSession.restore()) {
-				setStatus("已恢复初始账号: ${success.name}", 0xFF00FF00.toInt())
-			} else {
-				setStatus("无法写入初始会话", 0xFFFF0000.toInt())
-			}
+		if (MainAccount.restore()) {
+			setStatus("已写回主账号: ${MainAccount.name()}", 0xFF00FF00.toInt())
+		} else {
+			setStatus("无法写回主账号", 0xFFFF0000.toInt())
 		}
 	}
 

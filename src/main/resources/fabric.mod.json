@@ -3,7 +3,7 @@
 	"id": "tokenlogin",
 	"version": "${version}",
 	"name": "Tokenlogin",
-	"description": "Client-only clipboard token login and original-session refresh for Minecraft 26.2.",
+	"description": "Client-only clipboard token login and main-account token refresh for Minecraft 26.2.",
 	"authors": [
 		"KCl"
 	],

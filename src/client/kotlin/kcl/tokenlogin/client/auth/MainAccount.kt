@@ -11,22 +11,25 @@ import java.nio.file.Files
 import java.util.Optional
 import java.util.UUID
 
-object OriginalSession {
+object MainAccount {
 	private val logger = LoggerFactory.getLogger("tokenlogin")
 	private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
-	private val file = FabricLoader.getInstance().configDir.resolve("tokenlogin/original.json")
+	private val file = FabricLoader.getInstance().configDir.resolve("tokenlogin/main-account.json")
+
+	@Volatile
+	private var capturedThisSession = false
 
 	@Volatile
 	private var snapshot: Snapshot? = null
 
 	fun capture(client: Minecraft) {
-		if (snapshot != null) {
+		if (capturedThisSession) {
 			return
 		}
 		val user = client.user
 		val token = user.accessToken
 		if (token.isBlank()) {
-			logger.warn("Launch session has no access token")
+			logger.warn("Client user has no access token yet")
 			return
 		}
 		val snap = Snapshot(
@@ -37,28 +40,23 @@ object OriginalSession {
 			clientId = user.clientId.orElse(null),
 		)
 		snapshot = snap
+		capturedThisSession = true
 		save(snap)
-		logger.info("Recorded original session: {} ({})", snap.name, snap.uuid)
+		logger.info("Recorded main account: {} ({})", snap.name, snap.uuid)
 	}
 
-	fun originalName(): String? = snapshot()?.name
+	fun name(): String? = current()?.name
+
+	fun token(): String? = current()?.accessToken
 
 	fun restore(): Boolean {
-		val snap = snapshot() ?: return false
-		val user = snap.toUser()
-		UserManager.applyUser(user)
-		logger.info("Restored original session: {} ({})", snap.name, snap.uuid)
+		val snap = current() ?: return false
+		UserManager.applyUser(snap.toUser())
+		logger.info("Wrote main account token back: {} ({})", snap.name, snap.uuid)
 		return true
 	}
 
-	fun originalToken(): String? = snapshot()?.accessToken
-
-	private fun snapshot(): Snapshot? {
-		snapshot?.let { return it }
-		val loaded = loadFromFile() ?: return null
-		snapshot = loaded
-		return loaded
-	}
+	private fun current(): Snapshot? = snapshot
 
 	private fun save(snap: Snapshot) {
 		try {
@@ -75,32 +73,7 @@ object OriginalSession {
 			}
 			Files.writeString(file, gson.toJson(json))
 		} catch (e: Exception) {
-			logger.warn("Failed to persist original session", e)
-		}
-	}
-
-	private fun loadFromFile(): Snapshot? {
-		return try {
-			if (!Files.isRegularFile(file)) {
-				return null
-			}
-			val json = gson.fromJson(Files.readString(file), JsonObject::class.java) ?: return null
-			val token = json.get("accessToken")?.asString
-			val name = json.get("name")?.asString
-			val uuidRaw = json.get("uuid")?.asString
-			if (token.isNullOrBlank() || name.isNullOrBlank() || uuidRaw.isNullOrBlank()) {
-				return null
-			}
-			Snapshot(
-				name = name,
-				uuid = UUID.fromString(uuidRaw),
-				accessToken = token,
-				xuid = json.get("xuid")?.asString,
-				clientId = json.get("clientId")?.asString,
-			)
-		} catch (e: Exception) {
-			logger.warn("Failed to load original session", e)
-			null
+			logger.warn("Failed to persist main account", e)
 		}
 	}
 
