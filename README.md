@@ -2,6 +2,18 @@
 
 **中文** | **English**
 
+## 版本 | Versions
+
+各 Minecraft 版本用独立 branch / tag / GitHub Release，不要互相合并。
+
+| Minecraft | Branch | Tag | Mod |
+|---|---|---|---|
+| **26.1.2** (this tree) | [`26.1.2`](https://github.com/KClgame/tokenlogin/tree/26.1.2) / [`main`](https://github.com/KClgame/tokenlogin/tree/main) | `26.1.2-v0.0.1` | `0.0.1` |
+| 26.2 | [`26.2`](https://github.com/KClgame/tokenlogin/tree/26.2) | `26.2-v1.0.1` | `1.0.1+26.2` |
+
+Releases: https://github.com/KClgame/tokenlogin/releases
+
+
 ---
 
 ## 中文
